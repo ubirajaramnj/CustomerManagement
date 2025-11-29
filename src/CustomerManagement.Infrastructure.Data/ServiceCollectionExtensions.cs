@@ -1,0 +1,35 @@
+﻿using CustomerManagement.Domain.Repositories;
+using CustomerManagement.Infrastructure.Data;
+using CustomerManagement.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace CustomerManagement.Infrastructure
+{
+    /// <summary>
+    /// Métodos de extensão para configurar serviços da camada de infraestrutura.
+    /// </summary>
+    public static class ServiceCollectionExtensions
+    {
+        /// <summary>
+        /// Adiciona os serviços de infraestrutura (DbContext e Repositórios) à coleção de serviços.
+        /// </summary>
+        /// <param name="services">A coleção de serviços.</param>
+        /// <param name="configuration">A configuração da aplicação.</param>
+        /// <returns>A coleção de serviços atualizada.</returns>
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        {
+            // Configura o DbContext para usar SQL Server com LocalDB.
+            // A string de conexão é lida do arquivo de configuração (appsettings.json).
+            services.AddDbContext<CustomerDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            // Registra o repositório de clientes para injeção de dependência.
+            // Scoped significa que uma nova instância será criada por requisição.
+            services.AddScoped<ICustomerRepository, SqlServerCustomerRepository>();
+
+            return services;
+        }
+    }
+}
