@@ -1,0 +1,83 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="uml2" name="Full UML">
+    <mxGraphModel dx="1100" dy="900" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ENTITY -->
+        <mxCell id="entity" value="EntityId: Guid"
+                style="swimlane;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="220" height="120" as="geometry"/>
+        </mxCell>
+
+        <!-- VALUEOBJECT -->
+        <mxCell id="valueobj" value="ValueObject: GetEqualityComponents(): IEnumerable&lt;object&gt;"
+                style="swimlane;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="40" width="260" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- Customer -->
+        <mxCell id="customer" value="Customer\n---------------------\n+ Name: string\n+ Emails: IReadOnlyList&lt;Email&gt;\n+ Phones: IReadOnlyList&lt;Phone&gt;\n+ Addresses: IReadOnlyList&lt;Address&gt;\n+ Documents: IReadOnlyList&lt;Document&gt;\n+ CreatedAt: DateTime\n+ UpdatedAt: DateTime\n+ IsActive: bool\n---------------------\n+ Create(name)\n+ UpdateName(newName)\n+ AddEmail(value, isPrimary)\n+ RemoveEmail(value)\n+ SetPrimaryEmail(value)\n+ AddPhone(phone)\n+ RemovePhone(area, number)\n+ SetPrimaryPhone(area, number)\n+ AddAddress(address)\n+ RemoveAddress(street,number,city)\n+ SetPrimaryAddress(street,number,city)\n+ AddDocument(document)\n+ RemoveDocument(number)\n+ Activate()\n+ Deactivate()\n+ ValidateCustomerState()"
+                style="swimlane;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="350" height="500" as="geometry"/>
+        </mxCell>
+
+        <!-- Email -->
+        <mxCell id="email" value="Email\n---------------------\n+ Value: string\n+ IsPrimary: bool\n---------------------\n+ Create(value, isPrimary)\n+ SetAsPrimary()\n+ SetAsSecondary()"
+                style="swimlane;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="420" y="200" width="260" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- Phone -->
+        <mxCell id="phone" value="Phone\n---------------------\n+ AreaCode: string\n+ Number: string\n+ IsPrimary: bool\n---------------------\n+ Create(areaCode, number, isPrimary)\n+ SetAsPrimary()\n+ SetAsSecondary()"
+                style="swimlane;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="420" y="430" width="260" height="220" as="geometry"/>
+        </mxCell>
+
+        <!-- Address -->
+        <mxCell id="address" value="Address\n---------------------\n+ Street: string\n+ Number: string\n+ Complement: string\n+ City: string\n+ State: string\n+ ZipCode: string\n+ Country: string\n+ IsPrimary: bool\n---------------------\n+ Create(...)\n+ SetAsPrimary()\n+ SetAsSecondary()"
+                style="swimlane;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="740" width="350" height="260" as="geometry"/>
+        </mxCell>
+
+        <!-- Document -->
+        <mxCell id="document" value="Document\n---------------------\n+ Number: string\n+ Type: string\n---------------------\n+ Create(number, type)"
+                style="swimlane;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="420" y="690" width="260" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- Inheritance: Customer -> Entity -->
+        <mxCell id="inherit_cust" edge="1" parent="1" source="customer" target="entity"
+                style="endArrow=block;endFill=0;startArrow=none"/>
+        
+        <!-- Inheritance: Email -> ValueObject -->
+        <mxCell id="inherit_email" edge="1" parent="1" source="email" target="valueobj"
+                style="endArrow=block;endFill=0"/>
+
+        <!-- Inheritance: Phone -> ValueObject -->
+        <mxCell id="inherit_phone" edge="1" parent="1" source="phone" target="valueobj"
+                style="endArrow=block;endFill=0"/>
+
+        <!-- Inheritance: Address -> ValueObject -->
+        <mxCell id="inherit_address" edge="1" parent="1" source="address" target="valueobj"
+                style="endArrow=block;endFill=0"/>
+
+        <!-- Inheritance: Document -> ValueObject -->
+        <mxCell id="inherit_document" edge="1" parent="1" source="document" target="valueobj"
+                style="endArrow=block;endFill=0"/>
+
+        <!-- Aggregations (Customer owns collections) -->
+        <mxCell id="agg_email" edge="1" parent="1" source="customer" target="email"
+                style="endArrow=diamond;endFill=0"/>
+        <mxCell id="agg_phone" edge="1" parent="1" source="customer" target="phone"
+                style="endArrow=diamond;endFill=0"/>
+        <mxCell id="agg_addr" edge="1" parent="1" source="customer" target="address"
+                style="endArrow=diamond;endFill=0"/>
+        <mxCell id="agg_doc" edge="1" parent="1" source="customer" target="document"
+                style="endArrow=diamond;endFill=0"/>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
